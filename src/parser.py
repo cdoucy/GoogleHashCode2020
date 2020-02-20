@@ -1,12 +1,18 @@
+from pprint import pprint
 class Library(object):
-    def __init__(self, nb_books, days, m):
+    def __init__(self, ID, nb_books, days, m):
+        self.ID = ID
         self.books = []
         self.nb_books = nb_books
         self.days = days
         self.m = m
+        self.calcDays()
 
     def addBook(self, book):
         self.books.append(book)
+
+    def calcDays(self):
+        self.tot_days = self.days + self.nb_books / self.m
 
 class BookScanning(object):
     def __init__(self, total_books, nb_libs, nb_days, books_scores):
@@ -15,6 +21,15 @@ class BookScanning(object):
         self.nb_days = nb_days
         self.libs = []
         self.books_scores = books_scores
+
+def algo(bs):
+    x = 0
+    bs.libs.sort(key = lambda x: x.tot_days, reverse = False)
+    print(bs.nb_libs)
+    for it in bs.libs:
+        print(it.ID, it.nb_books)
+        print(str(it.books)[1: -1].replace(',', ''))
+        x += 1
 
 def parseHeader(first, second):
     books_scores = []
@@ -32,9 +47,11 @@ def parse(filepath):
     fd = open(filepath, "r")
     lines = fd.readlines()
     bs = parseHeader(lines[0], lines[1])
+    x = 0
     for i in range(2, len(lines), 2):
         split = lines[i].split()
-        l = Library(int(split[0]), int(split[1]), int(split[2]))
+        l = Library(x, int(split[0]), int(split[1]), int(split[2]))
+        x += 1
         split = lines[i + 1].split()
         for it in split:
             l.addBook(int(it))
@@ -44,6 +61,7 @@ def parse(filepath):
 if __name__ == "__main__":
     from sys import argv
     bs = parse(argv[1])
-    print(bs.total_books, bs.nb_libs, bs.nb_days, bs.books_scores)
-    for it in bs.libs:
-        print(it.nb_books, it.days, it.m, it.books)
+    # print(bs.total_books, bs.nb_libs, bs.nb_days, bs.books_scores)
+    algo(bs)
+    # for it in bs.libs:
+    #     print(it.nb_books, it.days, it.m, it.books)
