@@ -1,4 +1,3 @@
-#!/usr/bin/bash
 
 for file in ./sample/*.txt
 do

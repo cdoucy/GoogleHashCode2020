@@ -1,4 +1,5 @@
-from pprint import pprint
+BOOK_SCORE = []
+
 class Library(object):
     def __init__(self, ID, nb_books, days, m):
         self.ID = ID
@@ -7,12 +8,19 @@ class Library(object):
         self.days = days
         self.m = m
         self.calcDays()
+        self.calcScore()
 
     def addBook(self, book):
         self.books.append(book)
 
     def calcDays(self):
         self.tot_days = self.days + self.nb_books / self.m
+
+    def calcScore(self):
+        self.tot_score = 0
+        for it in self.books:
+            self.tot_score += BOOK_SCORE[it.books]
+        self.tot_score /= self.tot_days
 
 class BookScanning(object):
     def __init__(self, total_books, nb_libs, nb_days, books_scores):
@@ -22,16 +30,27 @@ class BookScanning(object):
         self.libs = []
         self.books_scores = books_scores
 
+def update(lib):
+    for it in libs.books:
+        BOOK_SCORE[it] = 0
+    lib.calcScore()
+
 def algo(bs):
     x = 0
-    bs.libs.sort(key = lambda x: x.tot_days, reverse = False)
+
+
+    # bs.libs.sort(key = lambda x: x.tot_days, reverse = True)
+    bs.libs.sort(key = lambda x: x.tot_score, reverse = True)
     print(bs.nb_libs)
     for it in bs.libs:
         print(it.ID, it.nb_books)
         print(str(it.books)[1: -1].replace(',', ''))
+        update(it.lib)
         x += 1
 
+
 def parseHeader(first, second):
+    global BOOK_SCORE
     books_scores = []
 
     split = first.split()
@@ -41,6 +60,7 @@ def parseHeader(first, second):
     split = second.split()
     for it in split:
         books_scores.append(int(it))
+    BOOK_SCORE = books_scores
     return BookScanning(total_books, nb_libs, nb_days, books_scores)
 
 def parse(filepath):
