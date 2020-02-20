@@ -19,7 +19,7 @@ class Library(object):
     def calcScore(self):
         self.tot_score = 0
         for it in self.books:
-            self.tot_score += BOOK_SCORE[it.books]
+            self.tot_score += BOOK_SCORE[it]
         self.tot_score /= self.tot_days
 
 class BookScanning(object):
@@ -31,23 +31,33 @@ class BookScanning(object):
         self.books_scores = books_scores
 
 def update(lib):
-    for it in libs.books:
+    for it in lib.books:
         BOOK_SCORE[it] = 0
     lib.calcScore()
 
 def algo(bs):
-    x = 0
+    # x = 0
+    # global BOOK_SCORE
 
 
     # bs.libs.sort(key = lambda x: x.tot_days, reverse = True)
     bs.libs.sort(key = lambda x: x.tot_score, reverse = True)
-    print(bs.nb_libs)
-    for it in bs.libs:
-        print(it.ID, it.nb_books)
-        print(str(it.books)[1: -1].replace(',', ''))
-        update(it.lib)
-        x += 1
+    # print(bs.nb_libs)
+    # for it in bs.libs:
+    #     print(it.ID, it.nb_books)
+    #     print(str(it.books)[1: -1].replace(',', ''))
+    #     update(it.lib)
+    #     x += 1
 
+    while len(bs.libs):
+        print(bs.libs[0].ID, bs.libs[0].nb_books)
+        print(str(bs.libs[0].books)[1: -1].replace(',', ''))
+        for it in bs.libs[0].books:
+            BOOK_SCORE[it] = 0
+        del bs.libs[0]
+        for it in bs.libs:
+            it.calcScore()
+        bs.libs.sort(key = lambda x: x.tot_score, reverse = True)
 
 def parseHeader(first, second):
     global BOOK_SCORE
