@@ -5,12 +5,12 @@ We ended 3055th world, 258th France and 5th from the Epitech Paris Hub's with a 
 
 We used python for the challenge.
 
-You can see our code in the src directory and our answers in the sample directory.
+You can see our code in the src directory and our answers in the output directory and the given input in the sample directory.
 The subject is the pdf file.
 
 We made a little script in bash to run the program for all each input files.
 
-Algorithm:
+Algorithm (used for b, c, e and f files):
 
 Our algorithm calculates the "score" of each library from the score of each books that it had.
 With all the scores we sort all the libraries from the highest score to the lowest.
@@ -25,3 +25,8 @@ Malus of the algorithm:
 - The books arent scanned from the highest score to the lowest
 - At the end, some library view it's score fall to '0' and we already sign them, we should not register if all of her books are already scanned.
 - We recalculate each library score, even if her score equals 0 (easy to change with an if)
+
+Algorithm (used for the d file):
+
+For this one, we sort the libraries from the following calcul :
+    time to sign up the library + number of books / number of books scan by days
